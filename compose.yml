@@ -1,0 +1,23 @@
+services:
+  mailwhale:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - MW_ENV=development
+      - MW_WEB_LISTEN_ADDR=0.0.0.0:3000
+      - MW_WEB_PUBLIC_URL=http://localhost:3000
+      - MW_MAIL_DOMAIN=${MW_MAIL_DOMAIN:-example.com}
+      - MW_SMTP_HOST=${MW_SMTP_HOST:-smtp.example.com}
+      - MW_SMTP_PORT=${MW_SMTP_PORT:-587}
+      - MW_SMTP_USER=${MW_SMTP_USER:-}
+      - MW_SMTP_PASS=${MW_SMTP_PASS:-}
+      - MW_SMTP_TLS=true
+      - MW_SECURITY_ALLOW_SIGNUP=true
+      - MW_SECURITY_PEPPER=${MW_SECURITY_PEPPER:-change-me-in-production}
+    volumes:
+      - mailwhale-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  mailwhale-data:
