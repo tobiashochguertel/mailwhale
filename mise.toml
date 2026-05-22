@@ -1,0 +1,51 @@
+[tools]
+go = "1.18"
+node = "22"
+
+[tasks.setup]
+description = "Initial setup — copy config, install webui dependencies"
+run = [
+    "cp -n config.default.yml config.yml || true",
+    "cd webui && npm install --legacy-peer-deps",
+]
+
+[tasks.build]
+description = "Full build — webui + Go binary"
+depends = ["build-webui", "build-go"]
+
+[tasks.build-webui]
+description = "Build the Svelte frontend"
+alias = "webui:build"
+run = "cd webui && npm install --legacy-peer-deps && npm run build"
+
+[tasks.build-go]
+description = "Build the Go binary"
+alias = "go:build"
+run = "go build -o mailwhale ."
+
+[tasks.dev-webui]
+description = "Start webui in dev mode (rollup watch)"
+alias = "webui:dev"
+run = "cd webui && npm run dev"
+
+[tasks.dev-server]
+description = "Run the mailwhale server"
+alias = "server:dev"
+run = "./mailwhale"
+depends = ["build-go"]
+
+[tasks.clean]
+description = "Remove build artifacts"
+run = [
+    "rm -f mailwhale",
+    "rm -rf webui/public/build",
+    "rm -rf webui/node_modules",
+]
+
+[tasks.test]
+description = "Run tests (currently none — placeholder)"
+run = "echo 'No tests configured yet'"
+
+[tasks.lint]
+description = "Lint the Go source"
+run = "go vet ./..."
