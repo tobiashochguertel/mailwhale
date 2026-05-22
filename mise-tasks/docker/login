@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="Login to container registry from .env credentials"
+set -a && . ./.env 2>/dev/null || true && set +a
+echo "${REGISTRY_PASSWORD}" | podman login --username "${REGISTRY_USERNAME}" --password-stdin "${IMAGE_REGISTRY}"
