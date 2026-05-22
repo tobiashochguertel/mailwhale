@@ -55,32 +55,33 @@ run = "go vet ./..."
 description = "Check REUSE license compliance"
 run = "reuse lint"
 
+# ── Docker image tasks ───────────────────────────────────────────────────
+# IMAGE_REGISTRY, IMAGE_NAME, IMAGE_TAG come from .env or default to private registry.
+# Secrets are stored in .env (git-ignored). Override inline:
+#   IMAGE_REGISTRY=ghcr.io mise run docker-publish
+
+[env]
+MISE_ENV_FILE = ".env"
+IMAGE_REGISTRY = "docker.registry.hochguertel.work"
+IMAGE_NAME = "mailwhale"
+IMAGE_TAG = "latest"
+
 [tasks.docker-build]
 description = "Build container image"
 alias = "image-build"
-env = { IMAGE_REGISTRY = "docker.registry.hochguertel.work", IMAGE_NAME = "mailwhale", IMAGE_TAG = "latest" }
-run = "set -a && . ./.env 2>/dev/null || true && set +a && docker build -t ${IMAGE_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} ."
+run = "docker build -t ${IMAGE_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} ."
 
 [tasks.docker-push]
 description = "Push container image to remote registry"
 alias = "image-push"
-env = { IMAGE_REGISTRY = "docker.registry.hochguertel.work", IMAGE_NAME = "mailwhale", IMAGE_TAG = "latest" }
-run = [
-    "set -a && . ./.env 2>/dev/null || true && set +a",
-    "docker push ${IMAGE_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}",
-]
+run = "docker push ${IMAGE_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
 
 [tasks.docker-publish]
 description = "Build and push container image"
 alias = "image-publish"
-env = { IMAGE_REGISTRY = "docker.registry.hochguertel.work", IMAGE_NAME = "mailwhale", IMAGE_TAG = "latest" }
 depends = ["docker-build", "docker-push"]
 
 [tasks.docker-tag]
 description = "Tag image with additional tag (usage: TAG=stable mise run docker-tag)"
 alias = "image-tag"
-env = { IMAGE_REGISTRY = "docker.registry.hochguertel.work", IMAGE_NAME = "mailwhale", IMAGE_TAG = "latest" }
-run = [
-    "set -a && . ./.env 2>/dev/null || true && set +a",
-    "docker tag ${IMAGE_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_REGISTRY}/${IMAGE_NAME}:${TAG}",
-]
+run = "docker tag ${IMAGE_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_REGISTRY}/${IMAGE_NAME}:${TAG}"
