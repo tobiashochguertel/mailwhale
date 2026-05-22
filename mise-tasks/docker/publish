@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+#MISE description="Build and push container image"
+mise run docker build && mise run docker push

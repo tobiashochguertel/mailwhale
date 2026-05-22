@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+#MISE description="Build container image"
+docker build -t "${IMAGE_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}" .
