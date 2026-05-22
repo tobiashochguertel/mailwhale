@@ -18,6 +18,12 @@ Common tasks are in `mise.toml` — run with `mise run <task>`:
 | `clean` | Remove build artifacts |
 | `test` | Run tests |
 | `lint` | Go vet |
+| `lint-license` | Check REUSE license compliance |
+
+## License
+
+This is a fork of [muety/mailwhale](https://github.com/muety/mailwhale) (MIT).
+The project is REUSE-compliant — see `LICENSES/` and `.reuse/dep5`.
 
 ## Project Layout
 

@@ -1,6 +1,7 @@
 [tools]
 go = "1.18"
 node = "22"
+"pipx:reuse" = "latest"
 
 [tasks.setup]
 description = "Initial setup — copy config, install webui dependencies"
@@ -49,3 +50,7 @@ run = "echo 'No tests configured yet'"
 [tasks.lint]
 description = "Lint the Go source"
 run = "go vet ./..."
+
+[tasks.lint-license]
+description = "Check REUSE license compliance"
+run = "reuse lint"
