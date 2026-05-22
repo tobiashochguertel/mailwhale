@@ -8,4 +8,5 @@ package-lock.json
 package.json
 dist
 *.db
-*.exe
+*.execonfig/
+config/config.yml

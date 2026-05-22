@@ -16,7 +16,7 @@ services:
       - MW_SECURITY_ALLOW_SIGNUP=true
       - MW_SECURITY_PEPPER=${MW_SECURITY_PEPPER:-change-me-in-production}
     volumes:
-      - ./config.yml:/app/config.yml:ro
+      - ./config/:/app/config/:ro
       - mailwhale-data:/app/data
     restart: unless-stopped
 
