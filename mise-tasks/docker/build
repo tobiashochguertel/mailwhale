@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 #MISE description="Build container image"
-#MISE depends=["setup"]
 ${CONTAINER_CMD:-docker} build -t "${IMAGE_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}" .

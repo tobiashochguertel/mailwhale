@@ -26,9 +26,10 @@ RUN yarn && \
 FROM alpine
 WORKDIR /app
 
-ADD config.yml .
 COPY --from=api-build-env /app .
+COPY --from=api-build-env /src/config.default.yml .
 COPY --from=ui-build-env /src/public ./webui/public
+COPY entrypoint.sh .
 
 ENV MW_ENV=prod
 ENV MW_WEB_LISTEN_V4=0.0.0.0:3000
@@ -36,4 +37,4 @@ ENV MW_STORE_PATH=/data/data.json.db
 
 VOLUME /data
 
-ENTRYPOINT ./mailwhale
+ENTRYPOINT ["/bin/sh", "/app/entrypoint.sh"]
